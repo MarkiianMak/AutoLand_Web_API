@@ -24,13 +24,15 @@ namespace AutoLand_API
 
         public string? NumberPlate { get; set; }
 
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public User? User { get; set; }
 
-        public int? Price { get; set; }
+        public int Price { get; set; }
         public string? Status { get; set; }
 
         public ICollection<Review>? Reviews { get; set; }  = new List<Review>();
+
+        public ICollection<Rent>? Rents { get; set; } = new List<Rent>();
 
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AutoLand_API
@@ -13,10 +14,10 @@ namespace AutoLand_API
         public int SenderId { get; set; }
         public User? Sender { get; set; }
 
-        public int? RecieverId { get; set; }
+        public int RecieverId { get; set; }
         public User? Reciever { get; set; }
-        public int? CarId { get; set; }
-
+        public int CarId { get; set; }
+  
         public Car? Car { get; set; }
 
 

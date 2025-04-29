@@ -27,28 +27,42 @@ namespace AutoLand_API
         {
             base.OnModelCreating(modelBuilder);
 
+            // Rent → User
             modelBuilder.Entity<Rent>()
-          .HasOne(r => r.User)
-          .WithMany(u => u.Rents)
-          .HasForeignKey(r => r.UserId)
-          .OnDelete(DeleteBehavior.Restrict);
+                .HasOne(r => r.User)
+                .WithMany(u => u.Rents)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Rent → Car
             modelBuilder.Entity<Rent>()
                 .HasOne(r => r.Car)
-                .WithMany()
+                .WithMany(c => c.Rents)
                 .HasForeignKey(r => r.CarId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Review>()
-            .HasOne(r => r.Sender)
-            .WithMany(u => u.RewiewsReceived)
-            .HasForeignKey(r => r.SenderId)
-            .OnDelete(DeleteBehavior.Restrict);
 
+            // Review → Sender (User)
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Sender)
+                .WithMany()
+                .HasForeignKey(r => r.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Review → Receiver (User)
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Reciever)
-                .WithMany()
+                .WithMany(u => u.RewiewsReceived)
                 .HasForeignKey(r => r.RecieverId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Review → Car
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Car)
+                .WithMany(c => c.Reviews)
+                .HasForeignKey(r => r.CarId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Seed Users
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
@@ -69,50 +83,54 @@ namespace AutoLand_API
                     Licence = "Є"
                 }
             );
+
+            // Seed Cars
             modelBuilder.Entity<Car>().HasData(
-            new Car
-            {
-                Id = 1,
-                Brand = "Toyota",
-                Model = "Corolla",
-                Year = 2020,
-                BodyType = "Седан",
-                Mileage = 45000,
-                FuelType = "Бензин",
-                NumberPlate = "AA1234AA",
-                UserId = 2,
-                Price = 20,
-                Status = "Доступна",
-            },
-            new Car
-            {
-                Id = 2,
-                Brand = "Volkswagen",
-                Model = "Passat",
-                Year = 2019,
-                BodyType = "Універсал",
-                Mileage = 62000,
-                FuelType = "Дизель",
-                NumberPlate = "BB5678BB",
-                UserId = 2,
-                Price = 60,
-                Status = "Доступна",
-            },
-            new Car
-            {
-                Id = 3,
-                Brand = "Tesla",
-                Model = "Model 3",
-                Year = 2022,
-                BodyType = "Седан",
-                Mileage = 15000,
-                FuelType = "Електро",
-                NumberPlate = "CC9012CC",
-                UserId = 2,
-                Price = 40,
-                Status = "Доступна",
-            });
+                new Car
+                {
+                    Id = 1,
+                    Brand = "Toyota",
+                    Model = "Corolla",
+                    Year = 2020,
+                    BodyType = "Седан",
+                    Mileage = 45000,
+                    FuelType = "Бензин",
+                    NumberPlate = "AA1234AA",
+                    UserId = 2,
+                    Price = 20,
+                    Status = "Доступна",
+                },
+                new Car
+                {
+                    Id = 2,
+                    Brand = "Volkswagen",
+                    Model = "Passat",
+                    Year = 2019,
+                    BodyType = "Універсал",
+                    Mileage = 62000,
+                    FuelType = "Дизель",
+                    NumberPlate = "BB5678BB",
+                    UserId = 2,
+                    Price = 60,
+                    Status = "Доступна",
+                },
+                new Car
+                {
+                    Id = 3,
+                    Brand = "Tesla",
+                    Model = "Model 3",
+                    Year = 2022,
+                    BodyType = "Седан",
+                    Mileage = 15000,
+                    FuelType = "Електро",
+                    NumberPlate = "CC9012CC",
+                    UserId = 2,
+                    Price = 40,
+                    Status = "Доступна",
+                }
+            );
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

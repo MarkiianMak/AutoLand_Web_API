@@ -21,7 +21,7 @@ namespace AutoLand_API.Controllers
         public IActionResult GetAll()
         {
 
-            return Ok(ctx.Payments.ToArray()); // 200
+            return Ok(ctx.Payments.ToArray()); 
         }
 
         [HttpGet("{Id}")]
@@ -41,7 +41,7 @@ namespace AutoLand_API.Controllers
         {
             ctx.Payments.Add(mapper.Map<Payment>(model));
             ctx.SaveChanges();
-            return Created(); // 201
+            return Created(); 
         }
 
         [HttpPut]
@@ -50,7 +50,7 @@ namespace AutoLand_API.Controllers
             ctx.Cars.Update(model);
             ctx.SaveChanges();
 
-            return Ok(); // 200
+            return Ok(); 
         }
 
         [HttpDelete]
@@ -58,12 +58,12 @@ namespace AutoLand_API.Controllers
         {
             var item = ctx.Cars.Find(id);
 
-            if (item == null) return NotFound(); // 404
+            if (item == null) return NotFound(); 
 
             ctx.Cars.Remove(item);
             ctx.SaveChanges();
 
-            return NoContent(); // 204
+            return NoContent(); 
         }
     }
 }

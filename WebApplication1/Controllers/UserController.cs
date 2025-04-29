@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AutoLand_API.Controllers
@@ -22,8 +23,10 @@ namespace AutoLand_API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-
-            return Ok(ctx.Users.ToArray());
+            var a = ctx.Users.Include(u => u.Rents)
+                .Include(u => u.RewiewsReceived)
+                             .ToList();
+            return Ok(a);
         }
 
         [HttpGet("{Id}")]
@@ -31,7 +34,6 @@ namespace AutoLand_API.Controllers
         public IActionResult Get(int Id)
         {
             var item = ctx.Users.Find(Id);
-
             if (item == null) return NotFound();
 
             return Ok(item);
@@ -44,6 +46,7 @@ namespace AutoLand_API.Controllers
 
             ctx.Users.Add(mapper.Map<User>(model));
             ctx.SaveChanges();
+
             return Created(); 
         }
 

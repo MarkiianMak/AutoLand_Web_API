@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoLand_API.Controllers
 {
@@ -20,7 +21,8 @@ namespace AutoLand_API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(ctx.Cars.ToArray()); // 200
+           var a = ctx.Cars.Include(c => c.Reviews).ToArray();
+            return Ok(a); 
         }
 
         [HttpGet("{Id}")]
@@ -38,7 +40,7 @@ namespace AutoLand_API.Controllers
         {
             ctx.Cars.Add(mapper.Map<Car>(model));
             ctx.SaveChanges();
-            return Created(); // 201
+            return Created(); 
         }
 
         [HttpPut]
@@ -47,7 +49,7 @@ namespace AutoLand_API.Controllers
             ctx .Cars.Update(model);
             ctx.SaveChanges();
 
-            return Ok(); // 200
+            return Ok(); 
         }
 
         [HttpDelete]
@@ -55,12 +57,12 @@ namespace AutoLand_API.Controllers
         {
             var item = ctx.Cars.Find(id);
 
-            if (item == null) return NotFound(); // 404
+            if (item == null) return NotFound(); 
 
             ctx.Cars.Remove(item);
             ctx.SaveChanges();
 
-            return NoContent(); // 204
+            return NoContent(); 
         }
 
 

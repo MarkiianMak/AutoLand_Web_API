@@ -25,6 +25,8 @@ namespace AutoLand_API
         public ICollection<Rent>? Rents { get; set; }    = new List<Rent>();
 
         public ICollection<Review>? RewiewsReceived { get; set; } = new List<Review>();
+        public ICollection<Payment>? Payments { get; set; } = new List<Payment>();
+
 
 
 
