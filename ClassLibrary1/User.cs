@@ -20,15 +20,8 @@ namespace AutoLand_API
 
 
         public ICollection<Car>? OwnedCars { get; set; } = new List<Car>();
-
-
-        public ICollection<Rent>? Rents { get; set; }    = new List<Rent>();
-
-        public ICollection<Review>? RewiewsReceived { get; set; } = new List<Review>();
+        public ICollection<Rent>? Rents { get; set; }  = new List<Rent>();
+        public ICollection<Review>? Reviews { get; set; } = new List<Review>();
         public ICollection<Payment>? Payments { get; set; } = new List<Payment>();
-
-
-
-
     }
 }

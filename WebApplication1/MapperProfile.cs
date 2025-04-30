@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WebApplication1;
 
 
 namespace AutoLand_API
@@ -11,8 +12,13 @@ namespace AutoLand_API
             CreateMap<CreateInsuranceModel, Insurance>();
             CreateMap<CreatePaymentModel, Payment>();
             CreateMap<CreateRentModel, Rent>();
-            CreateMap<CreateReviewModel, Review>();
-
+            CreateMap<CreateCarReviewModel, Review>();
+            CreateMap<CreateUserReviewModel, Review>();
+            CreateMap<Car, CarDto>();
+            CreateMap<Review, ReviewDto>();
+            CreateMap<Rent,CRentDto>();
+            CreateMap<Rent, URentDto>();
+            CreateMap<User, UserDto>();
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using System.Diagnostics.Eventing.Reader;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoLand_API.Controllers
 {
@@ -21,44 +22,52 @@ namespace AutoLand_API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+            return Ok(ctx.Reviews.ToArray());
+        }
 
-            return Ok(ctx.Reviews.ToArray()); 
+
+        [HttpPost("Car{Id}")]
+        public IActionResult Create(CreateCarReviewModel model, int Id)
+        {
+
+            var car = ctx.Cars.Find(Id);
+            if(car == null) 
+            { 
+               return NoContent();
+            }
+            car.Reviews.Add(mapper.Map<Review>(model));
+            ctx.SaveChanges();
+
+            return Created(); 
+        }
+
+        [HttpPost("User{Id}")]
+        public IActionResult Create(CreateUserReviewModel model, int Id)
+        {
+            var user = ctx.Users.Find(Id);
+        
+          
+            if (user == null)
+            {
+                return NoContent();
+            }
+            user.Reviews.Add(mapper.Map<Review>(model));
+
+            ctx.SaveChanges();
+
+            return Created();
         }
 
         [HttpGet("{Id}")]
 
         public IActionResult Get(int Id)
         {
-            var item = ctx.Reviews.Find(Id);
-
+            var item = ctx.Users.Include(u => u.Reviews).FirstOrDefault(u => u.Id == Id);
             if (item == null) return NotFound();
 
-            return Ok(item);
 
-        }
+            return Ok(item.Reviews.ToList());
 
-        [HttpPost]
-        public IActionResult Create(CreateReviewModel model)
-        {
-            
-            var car = ctx.Cars.FirstOrDefault(c => c.Id == model.CarId);
-            var user = ctx.Users.FirstOrDefault(c => c.Id == model.RecieverId);
-            if (model.CarId == null && model.RecieverId != null)
-            {
-                user.RewiewsReceived.Add(mapper.Map<Review>(model));
-            }
-            else
-            {
-               car.Reviews.Add(mapper.Map<Review>(model));
-            } 
-            if(model.CarId == null && model.RecieverId == null) 
-            { 
-               return NoContent();
-            }
-
-            ctx.SaveChanges();
-
-            return Created(); 
         }
 
         [HttpPut]
@@ -67,7 +76,7 @@ namespace AutoLand_API.Controllers
             ctx.Reviews.Update(model);
             ctx.SaveChanges();
 
-            return Ok(); 
+            return Ok();
         }
 
         [HttpDelete]
@@ -80,7 +89,7 @@ namespace AutoLand_API.Controllers
             ctx.Reviews.Remove(item);
             ctx.SaveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
 
 

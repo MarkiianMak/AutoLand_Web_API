@@ -11,14 +11,12 @@ namespace AutoLand_API
     {
 
         public int Id { get; set; }
-        public int SenderId { get; set; }
-        public User? Sender { get; set; }
-
-        public int RecieverId { get; set; }
-        public User? Reciever { get; set; }
-        public int CarId { get; set; }
-  
-        public Car? Car { get; set; }
+        public int? RecieverId { get; set; }
+        [JsonIgnore]
+        public User? Reciever { get; set; } = null!;
+        public int? CarId { get; set; }
+        [JsonIgnore]
+        public Car? Car { get; set; } = null!;
 
 
         public double? Raiting { get; set; }

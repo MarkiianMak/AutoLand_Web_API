@@ -9,7 +9,7 @@ namespace AutoLand_API {
         public int? UserId { get; set; }
    
         public DateTime? Start { get; set; }
-        public decimal? Price { get; set; }
+        public double? Price { get; set; }
 
     }
 }

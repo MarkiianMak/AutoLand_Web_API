@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1;
 
 namespace AutoLand_API.Controllers
 {
@@ -21,7 +22,7 @@ namespace AutoLand_API.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-           var a = ctx.Cars.Include(c => c.Reviews).ToArray();
+           var a = ctx.Cars.ToArray();
             return Ok(a); 
         }
 
@@ -29,9 +30,33 @@ namespace AutoLand_API.Controllers
 
         public IActionResult Get(int Id)
         {
-            var item = ctx.Cars.Find(Id);
+            var item = ctx.Cars.Include(i => i.Reviews)
+                               .Include(i => i.Rents)
+                               .FirstOrDefault(i => i.Id == Id);
             if (item == null) return NotFound();
-            return Ok(item);
+
+            //var result = new CarDto
+            //{
+            //    Id = item.Id,
+            //    Brand = item.Brand,
+            //    Model = item.Model,
+            //    Year = item.Year,
+            //    BodyType = item.BodyType,
+            //    Mileage = item.Mileage,
+            //    FuelType = item.FuelType,
+            //    NumberPlate = item.NumberPlate,
+            //    Price = item.Price,
+            //    Status = item.Status,
+            //    Reviews = item.Reviews.Select(r => new ReviewDto
+
+            //    {
+            //        Rating = r.Raiting,
+            //        Comment = r.Comment
+            //    }).ToList()
+            //};
+
+            var result = mapper.Map<CarDto>(item);
+            return Ok(result);
 
         }
 
@@ -57,16 +82,13 @@ namespace AutoLand_API.Controllers
         {
             var item = ctx.Cars.Find(id);
 
-            if (item == null) return NotFound(); 
+            if (item == null) return NotFound();
 
             ctx.Cars.Remove(item);
             ctx.SaveChanges();
 
-            return NoContent(); 
+            return NoContent();
         }
-
-
-
 
     }
 }

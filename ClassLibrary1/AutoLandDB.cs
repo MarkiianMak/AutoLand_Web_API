@@ -23,6 +23,8 @@ namespace AutoLand_API
      : base(options)
         {
         }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,17 +43,10 @@ namespace AutoLand_API
                 .HasForeignKey(r => r.CarId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Review → Sender (User)
-            modelBuilder.Entity<Review>()
-                .HasOne(r => r.Sender)
-                .WithMany()
-                .HasForeignKey(r => r.SenderId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             // Review → Receiver (User)
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Reciever)
-                .WithMany(u => u.RewiewsReceived)
+                .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.RecieverId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -138,7 +133,11 @@ namespace AutoLand_API
 
             string configString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=AutoLandDB;Integrated Security=False;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
 
-            optionsBuilder.UseSqlServer(configString, sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
+            optionsBuilder.UseSqlServer(configString, sqlServerOptions =>
+                 sqlServerOptions.EnableRetryOnFailure()
+                        .MigrationsAssembly("WebApplication1")
+    );
+
         }
     }
 }

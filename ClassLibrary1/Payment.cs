@@ -11,10 +11,10 @@ namespace AutoLand_API
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-      
+        [JsonIgnore]
         public User? User { get; set; }
 
-        public decimal? Amount { get; set; }
+        public int? Amount { get; set; }
 
         public string? Type { get; set; }
 

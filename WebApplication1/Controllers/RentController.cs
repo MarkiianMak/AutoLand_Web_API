@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 
 using AutoMapper;
-
+using WebApplication1;
 namespace AutoLand_API.Controllers
 {
     [Route("api/[controller]")]
@@ -39,9 +39,10 @@ namespace AutoLand_API.Controllers
         [HttpPost]
         public IActionResult Create(CreateRentModel model)
         {
-            ctx.Rents.Add(mapper.Map<Rent>(model));
+            var resut = mapper.Map<Rent>(model);
+            ctx.Rents.Add(resut);
             ctx.SaveChanges();
-       
+          
             return Created(); 
         }
 

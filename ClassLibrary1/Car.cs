@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AutoLand_API
@@ -15,16 +16,17 @@ namespace AutoLand_API
 
         public int? Year { get; set; }
 
-
         public string? BodyType { get; set; }
 
-        public decimal? Mileage { get; set; }
+        public int? Mileage { get; set; }
 
         public string? FuelType { get; set; }
 
         public string? NumberPlate { get; set; }
 
         public int UserId { get; set; }
+
+        [JsonIgnore]
         public User? User { get; set; }
 
         public int Price { get; set; }
